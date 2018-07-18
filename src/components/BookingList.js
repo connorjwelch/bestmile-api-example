@@ -1,15 +1,11 @@
 import React from 'react'
 import './Booking.css'
-import { Form, Button, Select, Message, Header, Table } from 'semantic-ui-react'
-import { string, object, array, func, bool } from 'prop-types'
-import { ToastContainer, toast} from 'react-toastify'
+import { Table } from 'semantic-ui-react'
+import { toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import BookingRow from './BookingRow'
-import axios from 'axios'
-const baseURL = "https://api.partner.gce1.bestmile.io"
-const userID = "Connor"
-const site = "19d80f6a-b1fe-4455-aa9c-193186bec620"
-const apiKey = "32aa5ee39f9e4ecd91b763a2034825a5"
+import { fetchBookings, cancelBooking } from '../bestmile/APIConnection.js'
+import * as Config from '../bestmile/config/config.js'
 
 class BookingList extends React.Component {
   constructor(props) {
@@ -25,14 +21,7 @@ class BookingList extends React.Component {
   }
 
   updateBookings() {
-    axios({
-      method: 'get',
-      url: baseURL + "/v1/travel/users/" + userID + "/bookings",
-      headers: {'Content-Type': 'application/json', 'apikey': apiKey},
-      params: {
-        srid: 4326
-      }
-    })
+    fetchBookings()
     .then(response => {
       this.setState({ bookings : response.data.result,
                       summary: response.data.clusters.status.children})
@@ -42,12 +31,8 @@ class BookingList extends React.Component {
     })
   }
 
-  cancelBooking(bookingID) {
-    axios({
-      method: 'delete',
-      url: baseURL + "/v1/travel/users/" + userID + "/bookings/" + bookingID,
-      headers: {'Content-Type': 'application/json', 'apikey': apiKey},
-    })
+  onCancelClick(bookingID) {
+    cancelBooking(bookingID)
     .then(response => {
       toast.success("Booking Cancelled", {
         position: toast.POSITION.BOTTOM_CENTER
@@ -73,7 +58,7 @@ class BookingList extends React.Component {
     return (
       <div>
         <br />
-        <h1> {"Bookings for user " + userID} </h1>
+        <h1> {"Bookings for user " + Config.userID} </h1>
         <Table celled collapsing>
           <Table.Header>
             <Table.Row>
@@ -95,7 +80,7 @@ class BookingList extends React.Component {
                     destination={booking.itinerary[0].end.position.coordinate}
                     createdAt={booking.createdAt}
                     status={booking.status}
-                    onCancelClick={this.cancelBooking}>
+                    onCancelClick={this.onCancelClick}>
                   </BookingRow>
               ))}
           </Table.Body>

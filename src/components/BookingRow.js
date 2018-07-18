@@ -1,14 +1,9 @@
 import React from 'react'
 import './Booking.css'
-import { Form, Button, Select, Message, Header, Table } from 'semantic-ui-react'
-import { string, object, array, func, bool } from 'prop-types'
-import { ToastContainer, toast} from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
-import axios from 'axios'
-const baseURL = "https://api.partner.gce1.bestmile.io"
-const userID = "Connor"
-const site = "19d80f6a-b1fe-4455-aa9c-193186bec620"
-const apiKey = "32aa5ee39f9e4ecd91b763a2034825a5"
+import { Table } from 'semantic-ui-react'
+import { string, array, func } from 'prop-types'
+
+
 
 class BookingRow extends React.Component {
   constructor(props) {
@@ -36,8 +31,8 @@ class BookingRow extends React.Component {
         <Table.Cell>{this.props.destination[0] + ", " +
                      this.props.destination[1]} </Table.Cell>
         <Table.Cell>{this.props.status}</Table.Cell>
-        {((this.props.status=="wait" ||
-          this.props.status=="vehicleassigned") ?
+        {((this.props.status==="wait" ||
+          this.props.status==="vehicleassigned") ?
         <Table.Cell
           selectable
           textAlign='center'
