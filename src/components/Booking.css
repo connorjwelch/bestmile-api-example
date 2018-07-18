@@ -1,0 +1,18 @@
+.BookingList {
+  margin: auto;
+  width: 50%;
+  padding: 10px;
+  text-align: center;
+}
+.BookingForm {
+  margin: auto;
+  width: 30%;
+  padding: 10px;
+  text-align: center;
+}
+.SubmitButton {
+  margin: auto;
+  width: 25%;
+  text-align: center;
+  padding: 10px;
+}
