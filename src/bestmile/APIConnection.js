@@ -81,6 +81,16 @@ function cancelBooking(bookingID) {
   })
 }
 
+
+function geocode(location) {
+  var formatted = location.replace(/ /g, "+")
+  return axios({
+    method: 'get',
+    url: Config.mapsURL + "address=" + formatted + "&key=" + Config.mapsAPIKey,
+    headers: {'Content-Type': 'application/json'}
+  })
+}
+
 function reverseGeocode(lat, lng) {
   return axios({
     method: 'get',
@@ -88,4 +98,9 @@ function reverseGeocode(lat, lng) {
     headers: {'Content-Type': 'application/json'}
   })
 }
-export { createBooking, estimatePickup, estimateDuration, fetchBookings, cancelBooking, reverseGeocode }
+
+function getPickupAndDropoffLatLng(pickup, dropoff) {
+  return axios.all([geocode(pickup), geocode(dropoff)])
+}
+
+export { createBooking, estimatePickup, estimateDuration, fetchBookings, cancelBooking, geocode, reverseGeocode, getPickupAndDropoffLatLng }
