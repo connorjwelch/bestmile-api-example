@@ -32,7 +32,19 @@ class CreateBookingForm extends React.Component {
   }
 
   getTripDuration() {
-
+    estimateDuration(this.state.pickupLat, this.state.pickupLng,
+      this.state.dropoffLat, this.state.dropoffLng)
+    .then(response => {
+      toast.info("Your trip will take " +
+        moment.duration(response.data.result.durationFromPickupToDropoff)
+        .humanize(), {
+          position: toast.POSITION.TOP_CENTER
+        }
+      )
+    })
+    .catch(error => {
+      console.log(error)
+    })
   }
 
   handleChange(e) {

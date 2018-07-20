@@ -49,7 +49,18 @@ function estimatePickup(pickupLat, pickupLng) {
 }
 
 function estimateDuration(pickupLat, pickupLng, dropoffLat, dropoffLng) {
-  
+  return axios({
+    method: 'get',
+    url: Config.baseURL + "/v1/travel/sites/" + Config.siteID + "/estimates/trip",
+    headers: {'Content-Type': 'application/json', 'apikey': Config.apiKey},
+    params: {
+      pickupLatitude: pickupLat,
+      pickupLongitude: pickupLng,
+      dropoffLatitude: dropoffLat,
+      dropoffLongitude: dropoffLng
+    },
+    data: {}
+  })
 }
 function fetchBookings() {
   return axios({
@@ -70,4 +81,11 @@ function cancelBooking(bookingID) {
   })
 }
 
-export {createBooking, estimatePickup, fetchBookings, cancelBooking}
+function reverseGeocode(lat, lng) {
+  return axios({
+    method: 'get',
+    url: Config.mapsURL + "latlng=" + lat + "," + lng + "&key=" + Config.mapsAPIKey,
+    headers: {'Content-Type': 'application/json'}
+  })
+}
+export { createBooking, estimatePickup, estimateDuration, fetchBookings, cancelBooking, reverseGeocode }
