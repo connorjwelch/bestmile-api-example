@@ -81,6 +81,13 @@ function cancelBooking(bookingID) {
   })
 }
 
+function getHermesID(vehicleID) {
+  return axios({
+    method:'get',
+    url: Config.baseURL + "/v1/sites/" + Config.siteID + "/vehicles/" + vehicleID,
+    headers: {'Content-Type': 'application/json', 'apikey': Config.apiKey}
+  })
+}
 
 function geocode(location) {
   var formatted = location.replace(/ /g, "+")
@@ -103,4 +110,5 @@ function getPickupAndDropoffLatLng(pickup, dropoff) {
   return axios.all([geocode(pickup), geocode(dropoff)])
 }
 
-export { createBooking, estimatePickup, estimateDuration, fetchBookings, cancelBooking, geocode, reverseGeocode, getPickupAndDropoffLatLng }
+export { createBooking, estimatePickup, estimateDuration, fetchBookings, cancelBooking, getHermesID,
+  geocode, reverseGeocode, getPickupAndDropoffLatLng }

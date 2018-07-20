@@ -2,18 +2,21 @@ import React from 'react'
 import './Booking.css'
 import { Table } from 'semantic-ui-react'
 import { string, array, func } from 'prop-types'
-import { reverseGeocode } from '../bestmile/APIConnection.js'
+import { reverseGeocode, getHermesID } from '../bestmile/APIConnection.js'
 
 
 class BookingRow extends React.Component {
   constructor(props) {
     super(props)
+    console.log("New Booking Row")
     this.onCancel = this.onCancel.bind(this)
     this.getAddresses = this.getAddresses.bind(this)
     this.state = { status: props.status,
                    origin: "",
-                   destination: "" }
+                   destination: "",
+                   hermesID: ""}
     this.getAddresses()
+    this.getVehicle()
   }
   static propTypes = {
     bookingID: string.isRequired,
@@ -23,6 +26,11 @@ class BookingRow extends React.Component {
     onCancelClick: func.isRequired,
   }
 
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if(this.props.vehicleID !== prevProps.vehicleID) {
+      this.getVehicle()
+    }
+  }
   getAddresses() {
     reverseGeocode(this.props.origin[0], this.props.origin[1])
     .then(response => {
@@ -45,6 +53,21 @@ class BookingRow extends React.Component {
     })
 
   }
+
+  getVehicle() {
+    if(this.props.vehicleID !== "") {
+      getHermesID(this.props.vehicleID)
+        .then(response => {
+          this.setState({
+            hermesID: response.data.result.hermesID
+          })
+        })
+        .catch(error => {
+          console.log(error)
+        })
+
+    }
+  }
   onCancel() {
     this.props.onCancelClick(this.props.bookingID)
   }
@@ -56,6 +79,7 @@ class BookingRow extends React.Component {
         <Table.Cell>{this.state.origin} </Table.Cell>
         <Table.Cell>{this.state.destination} </Table.Cell>
         <Table.Cell>{this.props.status}</Table.Cell>
+        <Table.Cell>{this.state.hermesID}</Table.Cell>
         {((this.props.status==="wait" ||
           this.props.status==="vehicleassigned") ?
         <Table.Cell

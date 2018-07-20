@@ -18,7 +18,7 @@ class App extends Component {
     return (
       <div className='App'>
         <div className='App-header'>
-          <h1> Bestmile Consumer Test </h1>
+          <h1> Bestmile Traveler API Example </h1>
         </div>
         <CreateBookingForm
           sites={["Dallas"]}

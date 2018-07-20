@@ -66,6 +66,7 @@ class BookingList extends React.Component {
               <Table.HeaderCell>Origin</Table.HeaderCell>
               <Table.HeaderCell>Destination</Table.HeaderCell>
               <Table.HeaderCell>Status</Table.HeaderCell>
+              <Table.HeaderCell>Vehicle</Table.HeaderCell>
               <Table.HeaderCell>Cancel</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
@@ -78,6 +79,7 @@ class BookingList extends React.Component {
                     bookingID={booking.bookingID}
                     origin={booking.itinerary[0].start.position.coordinate}
                     destination={booking.itinerary[0].end.position.coordinate}
+                    vehicleID={booking.vehicleID}
                     createdAt={booking.createdAt}
                     status={booking.status}
                     onCancelClick={this.onCancelClick}>
