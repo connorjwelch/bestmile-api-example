@@ -80,7 +80,7 @@ class BookingRow extends React.Component {
         <Table.Cell>{this.state.origin} </Table.Cell>
         <Table.Cell>{this.state.destination} </Table.Cell>
         <Table.Cell>{moment(this.props.createdAt)
-                      .format('MMM DD HH:MM:SS')}</Table.Cell>
+                      .format('MMM DD HH:mm')}</Table.Cell>
         <Table.Cell>{this.props.status}</Table.Cell>
         <Table.Cell>{this.state.hermesID}</Table.Cell>
         {((this.props.status==="wait" ||

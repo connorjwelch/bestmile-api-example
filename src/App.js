@@ -18,8 +18,12 @@ class App extends Component {
     return (
       <div className='App'>
         <div className='App-header'>
+        <img src={require('./bestmile-logo.ico')}
+             alt="HTML5"
+             style={{width: 165, height: 45}}/>
           <h1> Bestmile Traveler API Example </h1>
         </div>
+        <br />
         <CreateBookingForm
         />
         <div className="ui one column stackable center aligned page grid">
