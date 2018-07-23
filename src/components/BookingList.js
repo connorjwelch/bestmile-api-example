@@ -14,14 +14,13 @@ class BookingList extends React.Component {
     this.updateBookings()
     setInterval(this.updateBookings, 5000)
   }
-
   state = {
     bookings: [],
     summary: {}
   }
 
   updateBookings() {
-    fetchBookings()
+    fetchBookings(this.props.userID)
     .then(response => {
       this.setState({ bookings : response.data.result,
                       summary: response.data.clusters.status.children})
@@ -32,7 +31,7 @@ class BookingList extends React.Component {
   }
 
   onCancelClick(bookingID) {
-    cancelBooking(bookingID)
+    cancelBooking(bookingID, this.props.userID)
     .then(response => {
       toast.success("Booking Cancelled", {
         position: toast.POSITION.BOTTOM_CENTER
@@ -58,13 +57,14 @@ class BookingList extends React.Component {
     return (
       <div>
         <br />
-        <h1> {"Bookings for user " + Config.userID} </h1>
+        <h1> {this.props.alias + " Bookings"} </h1>
         <Table celled collapsing>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>BookingID</Table.HeaderCell>
               <Table.HeaderCell>Origin</Table.HeaderCell>
               <Table.HeaderCell>Destination</Table.HeaderCell>
+              <Table.HeaderCell>Created</Table.HeaderCell>
               <Table.HeaderCell>Status</Table.HeaderCell>
               <Table.HeaderCell>Vehicle</Table.HeaderCell>
               <Table.HeaderCell>Cancel</Table.HeaderCell>

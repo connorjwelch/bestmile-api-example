@@ -4,7 +4,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CreateBookingForm from './components/CreateBookingForm'
 import BookingList from './components/BookingList'
-
+import * as Config from './bestmile/config/config.js'
 
 
 class App extends Component {
@@ -24,7 +24,11 @@ class App extends Component {
           sites={["Dallas"]}
         />
         <div className="ui one column stackable center aligned page grid">
-          <BookingList />
+          <BookingList userID={Config.userID} alias={"Native"}/>
+          <br />
+          <BookingList userID={Config.iOS_userID} alias={"iOS"}/>
+          <br />
+          <BookingList userID={Config.android_userID} alias={"Android"}/>
         </div>
         <div>
           <ToastContainer />

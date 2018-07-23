@@ -3,7 +3,7 @@ import './Booking.css'
 import { Table } from 'semantic-ui-react'
 import { string, array, func } from 'prop-types'
 import { reverseGeocode, getHermesID } from '../bestmile/APIConnection.js'
-
+import moment from 'moment'
 
 class BookingRow extends React.Component {
   constructor(props) {
@@ -23,6 +23,7 @@ class BookingRow extends React.Component {
     origin: array.isRequired,
     destination: array.isRequired,
     status: string.isRequired,
+    createdAt: string.isRequired,
     onCancelClick: func.isRequired,
   }
 
@@ -78,6 +79,8 @@ class BookingRow extends React.Component {
         <Table.Cell>{this.props.bookingID}</Table.Cell>
         <Table.Cell>{this.state.origin} </Table.Cell>
         <Table.Cell>{this.state.destination} </Table.Cell>
+        <Table.Cell>{moment(this.props.createdAt)
+                      .format('MMM DD HH:MM:SS')}</Table.Cell>
         <Table.Cell>{this.props.status}</Table.Cell>
         <Table.Cell>{this.state.hermesID}</Table.Cell>
         {((this.props.status==="wait" ||

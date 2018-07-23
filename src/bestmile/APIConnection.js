@@ -62,10 +62,10 @@ function estimateDuration(pickupLat, pickupLng, dropoffLat, dropoffLng) {
     data: {}
   })
 }
-function fetchBookings() {
+function fetchBookings(userID) {
   return axios({
     method: 'get',
-    url: Config.baseURL + "/v1/travel/users/" + Config.userID + "/bookings",
+    url: Config.baseURL + "/v1/travel/users/" + userID + "/bookings",
     headers: {'Content-Type': 'application/json', 'apikey': Config.apiKey},
     params: {
       srid: 4326
@@ -73,10 +73,10 @@ function fetchBookings() {
   })
 }
 
-function cancelBooking(bookingID) {
+function cancelBooking(bookingID, userID) {
   return axios({
     method: 'delete',
-    url: Config.baseURL + "/v1/travel/users/" + Config.userID + "/bookings/" + bookingID,
+    url: Config.baseURL + "/v1/travel/users/" + userID + "/bookings/" + bookingID,
     headers: {'Content-Type': 'application/json', 'apikey': Config.apiKey},
   })
 }
