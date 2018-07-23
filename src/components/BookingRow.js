@@ -8,7 +8,6 @@ import moment from 'moment'
 class BookingRow extends React.Component {
   constructor(props) {
     super(props)
-    console.log("New Booking Row")
     this.onCancel = this.onCancel.bind(this)
     this.getAddresses = this.getAddresses.bind(this)
     this.state = { status: props.status,
@@ -76,11 +75,11 @@ class BookingRow extends React.Component {
   render() {
     return (
       <Table.Row key={this.props.bookingID}>
+        <Table.Cell>{moment(this.props.createdAt)
+                    .format('MMM DD HH:mm')}</Table.Cell>
         <Table.Cell>{this.props.bookingID}</Table.Cell>
         <Table.Cell>{this.state.origin} </Table.Cell>
         <Table.Cell>{this.state.destination} </Table.Cell>
-        <Table.Cell>{moment(this.props.createdAt)
-                      .format('MMM DD HH:mm')}</Table.Cell>
         <Table.Cell>{this.props.status}</Table.Cell>
         <Table.Cell>{this.state.hermesID}</Table.Cell>
         {((this.props.status==="wait" ||

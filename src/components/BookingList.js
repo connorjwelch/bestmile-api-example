@@ -1,6 +1,6 @@
 import React from 'react'
 import './Booking.css'
-import { Table } from 'semantic-ui-react'
+import { Table, Menu, Icon } from 'semantic-ui-react'
 import { toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import BookingRow from './BookingRow'
@@ -11,23 +11,55 @@ class BookingList extends React.Component {
     super(props)
     this.updateBookings = this.updateBookings.bind(this)
     this.onCancelClick = this.onCancelClick.bind(this)
+    this.onBackClick = this.onBackClick.bind(this)
+    this.onForwardClick = this.onForwardClick.bind(this)
+    this.state = { bookings: [], summary: {}, loaded: false, total: 0, pageSize: 10,
+                   currentPage: 1}
     this.updateBookings()
     setInterval(this.updateBookings, 5000)
   }
-  state = {
-    bookings: [],
-    summary: {}
-  }
 
   updateBookings() {
-    fetchBookings(this.props.userID)
+    fetchBookings(this.props.userID, this.state.currentPage, this.state.pageSize)
     .then(response => {
+      if(this.state.pages == null) {
+        var totalPages = Math.ceil(response.data.total/this.state.pageSize)
+        var pages = []
+        for(var i = 2; i <= totalPages; i++) {
+          pages.push(
+            <Menu.Item key={i}>{i}</Menu.Item>
+          )
+        }
+        this.setState({ pages: pages })
+      }
       this.setState({ bookings : response.data.result,
-                      summary: response.data.clusters.status.children})
+                      summary: response.data.clusters.status.children,
+                      loaded: true,
+                      total: response.data.total,
+                      numPages: totalPages
+                      })
     })
     .catch(error => {
       console.log(error)
     })
+  }
+
+  onBackClick() {
+    if(this.state.currentPage > 1) {
+      this.setState({
+        currentPage: this.state.currentPage - 1,
+        loaded: false
+      }, this.updateBookings())
+    }
+  }
+
+  onForwardClick() {
+    if(this.state.currentPage < this.state.numPages) {
+      this.setState({
+        currentPage: this.state.currentPage + 1,
+        loaded: false
+      }, this.updateBookings())
+    }
   }
 
   onCancelClick(bookingID) {
@@ -54,6 +86,7 @@ class BookingList extends React.Component {
           </Table.Row>)
       }
     }
+
     return (
       <div>
         <br />
@@ -61,10 +94,10 @@ class BookingList extends React.Component {
         <Table celled collapsing>
           <Table.Header>
             <Table.Row>
+              <Table.HeaderCell>Created</Table.HeaderCell>
               <Table.HeaderCell>BookingID</Table.HeaderCell>
               <Table.HeaderCell>Origin</Table.HeaderCell>
               <Table.HeaderCell>Destination</Table.HeaderCell>
-              <Table.HeaderCell>Created</Table.HeaderCell>
               <Table.HeaderCell>Status</Table.HeaderCell>
               <Table.HeaderCell>Vehicle</Table.HeaderCell>
               <Table.HeaderCell>Cancel</Table.HeaderCell>
@@ -86,6 +119,22 @@ class BookingList extends React.Component {
                   </BookingRow>
               ))}
           </Table.Body>
+          <Table.Footer>
+            <Table.Row>
+              <Table.HeaderCell colSpan='7'>
+                <Menu floated='right' pagination>
+                  <Menu.Item key='back' icon >
+                    <Icon name='chevron left' />
+                  </Menu.Item>
+                  <Menu.Item key = "1">1</Menu.Item>
+                  {this.state.pages}
+                  <Menu.Item key='forward' icon >
+                    <Icon name='chevron right' />
+                  </Menu.Item>
+                </Menu>
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Footer>
         </Table>
         <br />
         {this.props.alias === "Native" &&

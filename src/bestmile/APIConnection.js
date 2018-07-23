@@ -62,14 +62,15 @@ function estimateDuration(pickupLat, pickupLng, dropoffLat, dropoffLng) {
     data: {}
   })
 }
-function fetchBookings(userID) {
+function fetchBookings(userID, pageNumber, pageSize) {
   return axios({
     method: 'get',
     url: Config.baseURL + "/v1/travel/users/" + userID + "/bookings",
     headers: {'Content-Type': 'application/json', 'apikey': Config.apiKey},
     params: {
       srid: 4326,
-      size: 25
+      size: pageSize,
+      page: pageNumber
     }
   })
 }
