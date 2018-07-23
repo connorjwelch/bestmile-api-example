@@ -68,7 +68,8 @@ function fetchBookings(userID) {
     url: Config.baseURL + "/v1/travel/users/" + userID + "/bookings",
     headers: {'Content-Type': 'application/json', 'apikey': Config.apiKey},
     params: {
-      srid: 4326
+      srid: 4326,
+      size: 25
     }
   })
 }

@@ -10,6 +10,7 @@ class BookingList extends React.Component {
   constructor(props) {
     super(props)
     this.updateBookings = this.updateBookings.bind(this)
+    this.onCancelClick = this.onCancelClick.bind(this)
     this.updateBookings()
     setInterval(this.updateBookings, 5000)
   }
