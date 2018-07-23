@@ -5,7 +5,6 @@ import { toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 import BookingRow from './BookingRow'
 import { fetchBookings, cancelBooking } from '../bestmile/APIConnection.js'
-import * as Config from '../bestmile/config/config.js'
 
 class BookingList extends React.Component {
   constructor(props) {
@@ -88,22 +87,25 @@ class BookingList extends React.Component {
           </Table.Body>
         </Table>
         <br />
-        <h1> Bookings Summary </h1>
-        <br />
-        <div className="ui one column stackable center aligned page grid">
-          <Table celled collapsing>
-            <Table.Header>
-              <Table.Row>
-                <Table.HeaderCell>Status</Table.HeaderCell>
-                <Table.HeaderCell>Count</Table.HeaderCell>
-              </Table.Row>
-            </Table.Header>
+        {this.props.alias === "Native" &&
+        <div>
+          <h1> Bookings Summary </h1>
+          <br />
+          <div className="ui one column stackable center aligned page grid">
+            <Table celled collapsing>
+              <Table.Header>
+                <Table.Row>
+                  <Table.HeaderCell>Status</Table.HeaderCell>
+                  <Table.HeaderCell>Count</Table.HeaderCell>
+                </Table.Row>
+              </Table.Header>
 
-            <Table.Body>
-              {clusters}
-            </Table.Body>
-          </Table>
-        </div>
+              <Table.Body>
+                {clusters}
+              </Table.Body>
+            </Table>
+          </div>
+      </div>}
       </div>
     )
   }

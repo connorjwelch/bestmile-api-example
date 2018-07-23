@@ -21,7 +21,6 @@ class App extends Component {
           <h1> Bestmile Traveler API Example </h1>
         </div>
         <CreateBookingForm
-          sites={["Dallas"]}
         />
         <div className="ui one column stackable center aligned page grid">
           <BookingList userID={Config.userID} alias={"Native"}/>
