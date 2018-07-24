@@ -14,9 +14,13 @@ class BookingRow extends React.Component {
                    origin: "",
                    destination: "",
                    hermesID: ""}
+  }
+
+  componentDidMount() {
     this.getAddresses()
     this.getVehicle()
   }
+  
   static propTypes = {
     bookingID: string.isRequired,
     origin: array.isRequired,

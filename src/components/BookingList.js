@@ -13,11 +13,16 @@ class BookingList extends React.Component {
     this.onCancelClick = this.onCancelClick.bind(this)
     this.onBackClick = this.onBackClick.bind(this)
     this.onForwardClick = this.onForwardClick.bind(this)
+    this.onPageNumberClick = this.onPageNumberClick.bind(this)
     this.state = { bookings: [], summary: {}, loaded: false, total: 0, pageSize: 10,
                    currentPage: 1}
+  }
+
+  componentDidMount() {
     this.updateBookings()
     setInterval(this.updateBookings, 5000)
   }
+
 
   updateBookings() {
     fetchBookings(this.props.userID, this.state.currentPage, this.state.pageSize)
@@ -27,7 +32,7 @@ class BookingList extends React.Component {
         var pages = []
         for(var i = 2; i <= totalPages; i++) {
           pages.push(
-            <Menu.Item key={i}>{i}</Menu.Item>
+            <Menu.Item key={i} name = {""+i} onClick={this.onPageNumberClick}>{i}</Menu.Item>
           )
         }
         this.setState({ pages: pages,
@@ -44,7 +49,7 @@ class BookingList extends React.Component {
     })
   }
 
-  onBackClick(e) {
+  onBackClick() {
     if(this.state.currentPage > 1) {
       this.setState({
         currentPage: this.state.currentPage - 1,
@@ -53,11 +58,19 @@ class BookingList extends React.Component {
     }
   }
 
-  onForwardClick(e) {
-    console.log(this.state)
+  onForwardClick() {
     if(this.state.currentPage < this.state.numPages) {
       this.setState({
         currentPage: this.state.currentPage + 1,
+        loaded: false
+      }, () => this.updateBookings())
+    }
+  }
+
+  onPageNumberClick(e, data) {
+    if(this.state.currentPage !== parseInt(data.name, 10)) {
+      this.setState({
+        currentPage: parseInt(data.name, 10),
         loaded: false
       }, () => this.updateBookings())
     }
@@ -128,7 +141,8 @@ class BookingList extends React.Component {
                   <Menu.Item key='back' icon onClick={this.onBackClick}>
                     <Icon name='chevron left' />
                   </Menu.Item>
-                  <Menu.Item key = "1">1</Menu.Item>
+                  <Menu.Item key = "1" name = "1" onClick={this.onPageNumberClick}>
+                    1</Menu.Item>
                   {this.state.pages}
                   <Menu.Item key='forward' icon onClick={this.onForwardClick}>
                     <Icon name='chevron right' />
