@@ -9,7 +9,7 @@ import * as Config from './bestmile/config/config.js'
 
 class App extends Component {
   constructor() {
-    super();
+    super()
     this.state = {
 
     }

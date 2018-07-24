@@ -30,13 +30,13 @@ class BookingList extends React.Component {
             <Menu.Item key={i}>{i}</Menu.Item>
           )
         }
-        this.setState({ pages: pages })
+        this.setState({ pages: pages,
+                        numPages: totalPages})
       }
       this.setState({ bookings : response.data.result,
                       summary: response.data.clusters.status.children,
                       loaded: true,
-                      total: response.data.total,
-                      numPages: totalPages
+                      total: response.data.total
                       })
     })
     .catch(error => {
@@ -44,21 +44,22 @@ class BookingList extends React.Component {
     })
   }
 
-  onBackClick() {
+  onBackClick(e) {
     if(this.state.currentPage > 1) {
       this.setState({
         currentPage: this.state.currentPage - 1,
         loaded: false
-      }, this.updateBookings())
+      }, () => this.updateBookings())
     }
   }
 
-  onForwardClick() {
+  onForwardClick(e) {
+    console.log(this.state)
     if(this.state.currentPage < this.state.numPages) {
       this.setState({
         currentPage: this.state.currentPage + 1,
         loaded: false
-      }, this.updateBookings())
+      }, () => this.updateBookings())
     }
   }
 
@@ -91,6 +92,8 @@ class BookingList extends React.Component {
       <div>
         <br />
         <h1> {this.props.alias + " Bookings"} </h1>
+        {this.state.loaded===false &&
+          <div className="ui active centered inline loader"></div>}
         <Table celled collapsing>
           <Table.Header>
             <Table.Row>
@@ -103,7 +106,6 @@ class BookingList extends React.Component {
               <Table.HeaderCell>Cancel</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
-
           <Table.Body>
               {this.state.bookings!=null &&
                 this.state.bookings.map(booking => (
@@ -123,12 +125,12 @@ class BookingList extends React.Component {
             <Table.Row>
               <Table.HeaderCell colSpan='7'>
                 <Menu floated='right' pagination>
-                  <Menu.Item key='back' icon >
+                  <Menu.Item key='back' icon onClick={this.onBackClick}>
                     <Icon name='chevron left' />
                   </Menu.Item>
                   <Menu.Item key = "1">1</Menu.Item>
                   {this.state.pages}
-                  <Menu.Item key='forward' icon >
+                  <Menu.Item key='forward' icon onClick={this.onForwardClick}>
                     <Icon name='chevron right' />
                   </Menu.Item>
                 </Menu>

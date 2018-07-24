@@ -55,7 +55,7 @@ class BookingRow extends React.Component {
   }
 
   getVehicle() {
-    if(this.props.vehicleID !== "") {
+    if(this.props.vehicleID !== "" && this.props.vehicleID != null) {
       getHermesID(this.props.vehicleID)
         .then(response => {
           this.setState({
@@ -65,7 +65,11 @@ class BookingRow extends React.Component {
         .catch(error => {
           console.log(error)
         })
-
+    }
+    else {
+      this.setState({
+        hermesID: "N/A"
+      })
     }
   }
   onCancel() {
