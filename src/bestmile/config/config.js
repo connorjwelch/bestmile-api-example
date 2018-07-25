@@ -1,0 +1,9 @@
+export const baseURL = "https://api.partner.gce1.bestmile.io",
+  userID = "Bestmile",
+  iOS_userID = "49b173f1-3148-4901-a451-24a4b5c2f877",
+  android_userID = "9657d2c9-254c-4187-82f9-89a4ae04cfb0",
+  siteID = "19d80f6a-b1fe-4455-aa9c-193186bec620",
+  apiKey = "32aa5ee39f9e4ecd91b763a2034825a5",
+  domainID = 1,
+  mapsURL = "https://maps.googleapis.com/maps/api/geocode/json?",
+  mapsAPIKey = "AIzaSyB7dbRlwwmZtjDGQAr_53lncdqfVrxXfFU";
