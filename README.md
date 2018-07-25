@@ -1,6 +1,6 @@
-#Bestmile API Example Web App
+# Bestmile API Example Web App
 
-##Setup
+## Setup
 To run this project, you need a [Bestmile API key](https://bestmile.com/forms/form-developer-api-request/) as well as a [Google Maps API key](https://developers.google.com/maps/documentation/geocoding/get-api-key) with access to the Geocoding API
 
 Then, create a config folder inside src/bestmile, and a file "config.js" inside the folder.  config.js should be in the following form:
